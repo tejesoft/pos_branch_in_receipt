@@ -11,6 +11,7 @@ class PosConfig(models.Model):
 
     @api.multi
     def _get_branch_address(self):
+
         self.company_address_street = '%(street)s %(street2)s %(city)s' % {
             'street': self.company_id.street or '',
             'street2': self.company_id.street2 or '',
@@ -18,6 +19,8 @@ class PosConfig(models.Model):
         }
 
         if self.stock_location_id:
+            if self.stock_location_id.parent_left == 0 or self.stock_location_id.parent_right == 0:
+                self.stock_location_id._parent_store_compute()
             warehouse = self.stock_location_id.get_warehouse()
             if warehouse:
                 self.branch_address = warehouse.partner_id
@@ -31,16 +34,3 @@ class PosConfig(models.Model):
         else:
             self.branch_address = self.company_id.partner_id
             self.branch_address_street = self.company_address_street
-
-
-
-
-
-#     name = fields.Char()
-#     value = fields.Integer()
-#     value2 = fields.Float(compute="_value_pc", store=True)
-#     description = fields.Text()
-#
-#     @api.depends('value')
-#     def _value_pc(self):
-#         self.value2 = float(self.value) / 100

@@ -10,7 +10,7 @@
     'website': "http://www.tejesoft.com",
 
     'category': 'Point Of Sale',
-    'version': '0.1',
+    'version': '0.2',
 
     'depends': ['point_of_sale','l10n_cl_base'],
 
